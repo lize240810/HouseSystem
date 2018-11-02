@@ -1,5 +1,3 @@
-import time
-
 from flask import (
     Flask, request, Response, make_response, g,
     render_template, jsonify, url_for, session,
@@ -9,6 +7,7 @@ from flask import (
 from database import db, User
 from utils import md5, is_email, is_phone
 from safe import login_required
+from captcha import random_str, random_base64_image
 
 app = Flask(__name__)
 
@@ -159,6 +158,45 @@ def ajax_retrieve():
         'desc': '找回来了，去登录吧'
     })
 
+# verify /验证/
+@app.route('/ajax-verify')
+def ajax_verify():
+    # 获取参数
+    resp_captcha = request.values.get('captcha',None)
+    sess_captcha = session.get('captcha', None)
+    session.pop('captcha', None)
+    if bool(resp_captcha):
+        if bool(sess_captcha):
+            if resp_captcha.upper() == sess_captcha:
+                return jsonify({
+                    'error' : 0,
+                    'desc' : '验证成功'
+                })
+            else:
+                return jsonify({
+                    'error' : 2,
+                    'desc' : '验证失败'
+                })
+        else:
+            return jsonify({
+                'error': 3,
+                'desc': '验证码已失效，请重新获取'
+            })
+    else:
+        return jsonify({
+            'error' : 1,
+            'desc':'请填写验证码'
+        })
+
+
+@app.route('/captcha')
+def view_captcha():
+    '''生成验证码存储于session中'''
+    rand_str = random_str(4)
+    bs64img = random_base64_image(rand_str)
+    session['captcha'] = rand_str
+    return bs64img
+
 def is_user_exists(username):
     return User.query.filter_by(username=username).count() > 0
 
@@ -171,5 +209,6 @@ if __name__ == '__main__':
     db_bind_app()
     app.run(
         host='127.0.0.1',
+        port='5656',
         debug=True
     )

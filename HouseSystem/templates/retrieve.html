@@ -1,21 +1,94 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>注册</title>
-<!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="/static/images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="/static/css/retrieve.css">
-<!--===============================================================================================-->
-</head>
-<body>
-    <form action="/ajax-retrieve">
-        账号: <input type="text" name="username" placeholder="用户名">
-        <button type="submit">提 交</button>
-        <a href="/login">登 录</a>
-        <a href="/register">注 册</a>
-    </form>
-</body>
-</html>
+{% extends "html_template.html" %}
+    {% block title %}注册{% endblock %}
+    <!--===============================================================================================-->
+    {% block style %}
+        <link rel="stylesheet" type="text/css" href="/static/css/retrieve.css">
+    {% endblock %}
+    <!--===============================================================================================-->
+    {% block body %}
+        <form action="/ajax-retrieve">
+            账号: <input type="text" name="username" placeholder="用户名"><br />
+            验证码: <input type="text" size="7" name="captcha" placeholder="验证码">
+            <img id="img-captcha" src="/captcha" title="点击刷新" alt="验证码" />
+            <br />
+            <button type="button">提 交</button><br />
+            <a href="/login">登 录</a>
+            <a href="/register">注 册</a>
+        </form>
+    {% endblock %}
+    <!--===============================================================================================-->
+    {% block script %}
+        <script type="text/javascript">
+            /**
+             *  加载验证码图片
+             */
+            function load_captcha($img) {
+                $.ajax({
+                    url:'/captcha',
+                    type:'GET',
+                    data:{},
+                    dataType:'text',
+                    success: function(resp){
+                        $img.attr('src', resp);
+                    },
+                    error: function(xhr){
+                        swal('error','失败','error');
+                    }
+                });
+            }
+
+            /**
+             * 验证
+             */
+            function verify_captcha($img){
+                var captcha = $('input[name=captcha]').val()
+                $.ajax({
+                    url : GLOBAL.AJAX_VERIFY,
+                    type : 'GET',
+                    data :{
+                        'captcha': captcha
+                    },
+                    dataType : 'json',
+                    success : function(resp){
+                        // 成功的画就更换一张图片
+                        var reload = function() {
+                            load_captcha($img);
+                        }
+                        if (resp.error == 0) {
+                            swal('验证成功', resp.desc ,'success')
+                        }
+                        else if (resp.error == 1) {
+                            swal('提示', resp.desc ,'warning')
+                        }
+                        else if (resp.error == 3) {
+                            swal('提示', resp.desc ,'warning')
+                        }
+                        else{
+                            swal('验证失败', resp.desc ,'error')
+                        }
+                    },
+                    error: function(xhr){
+                        swal('提示','失败','error')
+                    }
+                });
+            }
+
+            /**
+             * 加载事件
+             */
+            $(function(){
+                var $img = $("#img-captcha");
+                
+                load_captcha($img)
+
+                $img.on('click', function(){
+                    load_captcha($img)
+                })
+                $("button").on('click', function(){
+                    verify_captcha($img)
+                });
+            })
+
+
+        </script>        
+    {% endblock %}

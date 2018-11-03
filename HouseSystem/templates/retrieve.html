@@ -1,94 +1,74 @@
 {% extends "html_template.html" %}
-    {% block title %}注册{% endblock %}
+    {% block title %}找回密码{% endblock %}
     <!--===============================================================================================-->
     {% block style %}
         <link rel="stylesheet" type="text/css" href="/static/css/retrieve.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/util.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     {% endblock %}
     <!--===============================================================================================-->
     {% block body %}
-        <form action="/ajax-retrieve">
-            账号: <input type="text" name="username" placeholder="用户名"><br />
-            验证码: <input type="text" size="7" name="captcha" placeholder="验证码">
-            <img id="img-captcha" src="/captcha" title="点击刷新" alt="验证码" />
-            <br />
-            <button type="button">提 交</button><br />
-            <a href="/login">登 录</a>
-            <a href="/register">注 册</a>
-        </form>
+        <div class="limiter">
+            <div class="container-login100" style="background-image: url('/static/images/bg-01.jpg');">
+                <div class="wrap-login100 p-t-30 p-b-50">
+                    <form class="login100-form validate-form p-b-33 p-t-5">
+                        <div class="wrap-input100 validate-input" data-validate = "输入用户名">
+                            <input class="input100" type="text" name="username" placeholder="用户名/邮箱/手机">
+                            <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="输入密码">
+                            <input type="text" class="input50" name="captcha" id="captcha" placeholder="验证码">
+                            <img id="img-captcha" class="input20" src="/captcha" title="点击刷新" alt="验证码" />
+                            <span class="focus-input100" data-placeholder="&#xe80f;"></span>
+                        </div>
+
+                        <div class="container-login100-form-btn m-t-32">
+                            <button class="login100-form-btn" type="button">提 交</button>
+                            <a href="/login" class=" a-from-btn register100-form-btn">
+                                登 录
+                            </a>
+                        </div>
+                    </form>
+                <div>
+            <div>
+        <div>
     {% endblock %}
     <!--===============================================================================================-->
     {% block script %}
-        <script type="text/javascript">
-            /**
-             *  加载验证码图片
-             */
-            function load_captcha($img) {
-                $.ajax({
-                    url:'/captcha',
-                    type:'GET',
-                    data:{},
-                    dataType:'text',
-                    success: function(resp){
-                        $img.attr('src', resp);
-                    },
-                    error: function(xhr){
-                        swal('error','失败','error');
-                    }
-                });
-            }
-
-            /**
-             * 验证
-             */
-            function verify_captcha($img){
-                var captcha = $('input[name=captcha]').val()
-                $.ajax({
-                    url : GLOBAL.AJAX_VERIFY,
-                    type : 'GET',
-                    data :{
-                        'captcha': captcha
-                    },
-                    dataType : 'json',
-                    success : function(resp){
-                        // 成功的画就更换一张图片
-                        var reload = function() {
-                            load_captcha($img);
-                        }
-                        if (resp.error == 0) {
-                            swal('验证成功', resp.desc ,'success')
-                        }
-                        else if (resp.error == 1) {
-                            swal('提示', resp.desc ,'warning')
-                        }
-                        else if (resp.error == 3) {
-                            swal('提示', resp.desc ,'warning')
-                        }
-                        else{
-                            swal('验证失败', resp.desc ,'error')
-                        }
-                    },
-                    error: function(xhr){
-                        swal('提示','失败','error')
-                    }
-                });
-            }
-
-            /**
-             * 加载事件
-             */
-            $(function(){
-                var $img = $("#img-captcha");
-                
-                load_captcha($img)
-
-                $img.on('click', function(){
-                    load_captcha($img)
-                })
-                $("button").on('click', function(){
-                    verify_captcha($img)
-                });
-            })
-
-
-        </script>        
+        <script src="static/js/retrieve.js"></script>        
     {% endblock %}
+    <!-- 
+        <div class="limiter">
+            <div class="container-login100" style="background-image: url('/static/images/bg-01.jpg');">
+                <form action="/ajax-retrieve" class="form-horizontal">
+                    <label class="sr-only" for="captcha">用户名</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户名
+                        </div>
+                        <input type="text" class="form-control" name="username" id="captcha" placeholder="用户名">
+                    </div>
+                    
+                    <label class="sr-only" for="captcha">验证码</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-picture" id='capticon' aria-hidden="true"></span> 验证码
+                        </div>
+                        <input type="text" class="form-control"  name="captcha" id="captcha" placeholder="验证码">
+                        <div class="input-group-addon">
+                            <img id="img-captcha" src="/captcha" title="点击刷新" alt="验证码" />
+                        </div>
+                    </div>
+                        
+                    <div class="bg-primary input-group">
+                        <div class="input-group-addon"><a href="/login">登 录</a></div>
+                        <button type="button" class="btn-primary btn-lg btn-block">提 交 </button>
+                        <div class="input-group-addon">
+                            <a href="/register">注 册</a>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+        </div>
+     -->

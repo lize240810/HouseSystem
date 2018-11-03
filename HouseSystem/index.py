@@ -164,14 +164,14 @@ def ajax_verify():
     # 获取参数
     resp_captcha = request.values.get('captcha',None)
     sess_captcha = session.get('captcha', None)
-    session.pop('captcha', None)
     if bool(resp_captcha):
         if bool(sess_captcha):
             if resp_captcha.upper() == sess_captcha:
-                return jsonify({
-                    'error' : 0,
-                    'desc' : '验证成功'
-                })
+                    session.pop('captcha', None);
+                    return jsonify({
+                        'error' : 0,
+                        'desc' : '验证成功'
+                    })
             else:
                 return jsonify({
                     'error' : 2,

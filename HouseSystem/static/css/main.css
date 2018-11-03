@@ -236,6 +236,12 @@ iframe {
   border-bottom: 1px solid #e6e6e6;
   padding: 29px 0;
 }
+.wrap-input50 {
+  width: 50%;
+  position: relative;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 29px 0;
+}
 
 .input100 {
   font-family: Ubuntu-Regular;
@@ -252,6 +258,29 @@ iframe {
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s;
+}
+.input50,.input20 {
+  font-family: Ubuntu-Regular;
+  font-size: 20px;
+  color: #555555;
+  line-height: 1.2;
+
+  height: 50px;
+  background: transparent;
+  
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.input20 {
+  padding: 0 10px 0 20px;
+} 
+
+.input50 {
+  padding: 0 10px 0 80px;
+  width: 50%;
 }
 
 /*---------------------------------------------*/ 

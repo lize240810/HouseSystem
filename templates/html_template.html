@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block title %}{% endblock %}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->  
+<!--===============================================================================================-->
     <link rel="icon" type="image/png" href="/static/images/icons/favicon.ico"/>
 <!--===============================================================================================-->
+    <!-- bootstarp 核心css -->
     <link rel="stylesheet" type="text/css" href="/static/vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -14,26 +16,30 @@
     <link rel="stylesheet" type="text/css" href="/static/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
 <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/static/vendor/animate/animate.css">
-<!--===============================================================================================-->  
+<!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/static/vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/static/vendor/animsition/css/animsition.min.css">
 <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/static/vendor/select2/select2.min.css">
-<!--===============================================================================================-->  
+<!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/static/vendor/daterangepicker/daterangepicker.css">
 <!--===============================================================================================-->
     {% block style %}
-        
     {% endblock %}
 <!--===============================================================================================-->
+ <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
 </head>
+<!--===============================================================================================-->
 <body>
     {% block body %}
-        
     {% endblock %}
-    
-<!--===============================================================================================-->  
+<!--===============================================================================================-->
     <script type="text/javascript">
         if(!window.GLOBAL) {
             window.GLOBAL = {};
@@ -42,13 +48,15 @@
         GLOBAL.AJAX_REGISTER = "{{ url_for('ajax_register') }}"
         GLOBAL.AJAX_RETRIEVE = "{{ url_for('ajax_retrieve') }}"
         GLOBAL.AJAX_VERIFY = "{{ url_for('ajax_verify') }}"
-        
     </script>
 <!--===============================================================================================-->
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
     <script src="/static/vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
     <script src="/static/vendor/select2/select2.min.js"></script>
@@ -61,8 +69,6 @@
     <script src="/static/vendor/sweetalert/sweetalert.min.js"></script>
 <!--===============================================================================================-->
     {% block script %}
-        
-        
     {% endblock %}
 
 </body>

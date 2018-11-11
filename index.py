@@ -197,6 +197,11 @@ def view_captcha():
     session['captcha'] = rand_str
     return bs64img
 
+@app.route('/retrieve_pwd')
+def retrieve_pwd():
+    '''找回密码中心'''
+    return render_template('retrieve_pwd.html')
+
 def is_user_exists(username):
     return User.query.filter_by(username=username).count() > 0
 
@@ -210,5 +215,5 @@ if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
         port='5656',
-        debug=False
+        debug=True
     )

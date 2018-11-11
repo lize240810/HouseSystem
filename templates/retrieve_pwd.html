@@ -1,0 +1,67 @@
+{% extends "html_template.html" %}
+{% block title %}
+	账户修复中心
+{% endblock %}
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="/static/css/retrieve_pwd.css">
+	<style type="text/css">
+		.from-group{
+			margin-top: 1em;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+    <div class="site-wrapper">
+
+        <div class="site-wrapper-inner">
+
+            <div class="cover-container">
+
+                <div class="masthead clearfix">
+                    <div class="inner">
+                        <h3 class="masthead-brand">亲爱的 <a href="#">{{ name|default('二娃') }}</a> 用户</h3>
+                        <nav>
+                            <ul class="nav masthead-nav">
+                                <li class="active"><a href="#">Home</a></li>
+                                <li><a href="#">Features</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="inner cover">
+                    <h1 class="cover-heading">账户快速修复中心</h1>
+                    	<form class="form-horizontal">
+    						<div class="input-group">
+					            <input type="text" class="form-control" placeholder="请输入您注册的手机号码" name="phone">
+						      	<span class="input-group-btn">
+						      	  	<button class="btn btn-default" type="button">验证手机</button>
+						      	</span>
+					        </div>
+					        <div class="from-group">
+								<input type="pwd" class="form-control" id="newpwd" placeholder="请输入您的新密码">
+							</div>
+							<div class="from-group">
+								<button type="button" class="btn btn-primary btn-lg btn-block" disabled="disabled">确认重置</button>
+							</div>
+
+					</form>
+				</div>
+
+                <div class="mastfoot">
+                    <div class="inner">
+                        <p>最终解释权 <a  href="{{ url_for('view_logout') }}">归zgg</a>, by <a href="{{ url_for('view_logout') }}">@lize240810</a>.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+{% block script %}
+
+{% endblock %}
+

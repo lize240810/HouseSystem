@@ -1,0 +1,74 @@
+{% extends "html_template.html" %}
+    {% block title %}找回密码{% endblock %}
+    <!--===============================================================================================-->
+    {% block style %}
+        <link rel="stylesheet" type="text/css" href="/static/css/retrieve.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/util.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    {% endblock %}
+    <!--===============================================================================================-->
+    {% block body %}
+        <div class="limiter">
+            <div class="container-login100" style="background-image: url('/static/images/bg-01.jpg');">
+                <div class="wrap-login100 p-t-30 p-b-50">
+                    <form class="login100-form validate-form p-b-33 p-t-5">
+                        <div class="wrap-input100 validate-input" data-validate = "输入用户名">
+                            <input class="input100" type="text" name="username" placeholder="用户名/邮箱/手机">
+                            <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="输入密码">
+                            <input type="text" class="input50" name="captcha" id="captcha" placeholder="验证码">
+                            <img id="img-captcha" class="input20" src="/captcha" title="点击刷新" alt="验证码" />
+                            <span class="focus-input100" data-placeholder="&#xe80f;"></span>
+                        </div>
+
+                        <div class="container-login100-form-btn m-t-32">
+                            <button class="login100-form-btn" type="button">提 交</button>
+                            <a href="/login" class=" a-from-btn register100-form-btn">
+                                登 录
+                            </a>
+                        </div>
+                    </form>
+                <div>
+            <div>
+        <div>
+    {% endblock %}
+    <!--===============================================================================================-->
+    {% block script %}
+        <script src="static/js/retrieve.js"></script>        
+    {% endblock %}
+    <!-- 
+        <div class="limiter">
+            <div class="container-login100" style="background-image: url('/static/images/bg-01.jpg');">
+                <form action="/ajax-retrieve" class="form-horizontal">
+                    <label class="sr-only" for="captcha">用户名</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户名
+                        </div>
+                        <input type="text" class="form-control" name="username" id="captcha" placeholder="用户名">
+                    </div>
+                    
+                    <label class="sr-only" for="captcha">验证码</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-picture" id='capticon' aria-hidden="true"></span> 验证码
+                        </div>
+                        <input type="text" class="form-control"  name="captcha" id="captcha" placeholder="验证码">
+                        <div class="input-group-addon">
+                            <img id="img-captcha" src="/captcha" title="点击刷新" alt="验证码" />
+                        </div>
+                    </div>
+                        
+                    <div class="bg-primary input-group">
+                        <div class="input-group-addon"><a href="/login">登 录</a></div>
+                        <button type="button" class="btn-primary btn-lg btn-block">提 交 </button>
+                        <div class="input-group-addon">
+                            <a href="/register">注 册</a>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+        </div>
+     -->

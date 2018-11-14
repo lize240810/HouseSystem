@@ -3,23 +3,33 @@ from flask import (
     render_template, jsonify, url_for, session,
     redirect
 )
+import re
+from . import env
+from .database import db, User
+from .utils import md5, is_email, is_phone
+from .safe import login_required
+from .captcha import random_str, random_base64_image
 
-from database import db, User
-from utils import md5, is_email, is_phone
-from safe import login_required
-from captcha import random_str, random_base64_image
 
-app = Flask(__name__)
+app = Flask(__name__,
+        static_folder = env.DIR_STATIC,
+        template_folder = env.DIR_TEMPLATES
+    )
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# SECRET(秘密) session 秘匙
-app.config['SECRET_KEY'] = 'session'
 
-@app.route('/')
+
+@app.route('/idx')
 @login_required
 def view_index():
     return render_template('index.html')
+
+@app.route('/')
+def view_home():
+    return render_template('index.htm.j2')
+
+@app.route('/blog')
+def view_blog():
+    return render_template('blog.htm.j2')
 
 @app.route('/login')
 def view_login():
@@ -101,7 +111,7 @@ def ajax_register():
     # ***注意***：前端不可信（请求可伪造），后端必须要验证前端传递的内容（此步骤不可省略）
     if not bool(username):
         return jsonify({
-            'error': 1,
+            'error': 2,
             'desc': '请提供用户名'
         })
     else:
@@ -113,9 +123,37 @@ def ajax_register():
     if not bool(password):
         password = '123456'
     if not bool(email):
-        email = None
+        return jsonify({
+                'error': 4,
+                'desc': '请提供您的邮箱地址'
+            })
+    else:
+        if not bool(email_re(email)):
+                return jsonify({
+                    'error': 5,
+                    'desc': '您输入的邮箱有误'
+            })
+        if is_email_exists(email):
+            return jsonify({
+                'error': 6,
+                'desc': '该邮箱已经被注册过了'
+            })
     if not bool(phone):
-        phone = None
+        return jsonify({
+                'error': 7,
+                'desc': '请提供您的联系电话'
+            })
+    else:
+        if not bool(phone_re(phone)):
+            return jsonify({
+                'error': 8,
+                'desc': '您的联系电话不正确'
+            })
+        if is_phone_exists(phone):
+            return jsonify({
+                'error': 9,
+                'desc': '该手机号码已被注册了'
+            })
     # 添加到数据库
     user = User(
         username=username,
@@ -133,7 +171,7 @@ def ajax_register():
         })
     else:
         return jsonify({
-            'error': 2,
+            'error': 1,
             'desc': '注册失败'
         })
 
@@ -205,15 +243,21 @@ def retrieve_pwd():
 def is_user_exists(username):
     return User.query.filter_by(username=username).count() > 0
 
+def is_email_exists(email):
+    return User.query.filter_by(email=email).count() > 0
+
+def email_re(email):
+    reg = re.compile(r'^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$')
+    return reg.match(email)
+
+def is_phone_exists(phone):
+    return User.query.filter_by(phone=phone).count() > 0
+
+def phone_re(phone):
+    reg = re.compile(r"(13\d|14[579]|15[^4\D]|17[^49\D]|18\d)\d{8}")
+    return reg.match(phone)
+
 def db_bind_app():
     db.init_app(app)
     with app.app_context() as context:
         db.create_all()
-
-if __name__ == '__main__':
-    db_bind_app()
-    app.run(
-        host='0.0.0.0',
-        port='5656',
-        debug=True
-    )

@@ -27,16 +27,38 @@ function ajax_register(){
                     window.location.href = resp.url;
                     break;
                 case 1:
-                    sweetAlert("温馨提示", resp.desc,"warning");
-                    break;
-                case 2:
                     sweetAlert("欢迎注册", resp.desc,"success");
                     break;
-                case 3:
-                    sweetAlert("欢迎注册", resp.desc,"info");
+                case 2:
+                    sweetAlert("温馨提示", resp.desc,"warning");
                     break;
-            }
-                
+                case 3:
+                    sweetAlert("温馨提示", resp.desc,"warning");
+                    break;
+                case 4:
+                    sweetAlert("温馨提示", resp.desc,"warning");
+                    break;
+                case 5:
+                    sweetAlert("温馨提示", resp.desc,"info");
+                    break;
+                case 6:
+                    sweetAlert("温馨提示", resp.desc,"warning");
+                    break;
+                case 7:
+                    sweetAlert("温馨提示", resp.desc,"warning");
+                    break;
+                case 8:
+                    sweetAlert("温馨提示", resp.desc,"info");
+                    break;
+                case 9:
+                    sweetAlert("温馨提示", resp.desc,"warning");
+                    break;
+                default:
+                    sweetAlert("默认", resp.desc,"warning");
+                    break;
+
+
+                }
             },
         error: function(info){
             console.log(arguments);
